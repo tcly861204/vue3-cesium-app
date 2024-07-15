@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
-
-// https://vitejs.dev/config/
+import CopyPlugin from 'vite-plugin-files-copy'
+import htmlMinifierTerser from 'vite-plugin-html-minifier-terser'
 export default defineConfig(({ mode }) => {
   return {
     base: "/",
@@ -22,6 +22,30 @@ export default defineConfig(({ mode }) => {
       }
     },
     assetsInclude: ['**/*.glb'],
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      htmlMinifierTerser(),
+      CopyPlugin({
+        patterns: [
+          {
+            from: 'public',
+            to: 'dist/public',
+          },
+        ],
+      })
+    ],
+    build: {
+      emptyOutDir: true,
+      chunkSizeWarningLimit: 5000,
+      rollupOptions: {
+        output: {
+          manualChunks(id, { getModuleInfo, getModuleIds }) {
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          },
+        }
+      }
+    }
   }
 })
