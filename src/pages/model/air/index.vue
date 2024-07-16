@@ -42,7 +42,7 @@ onMounted(() => {
     viewer.trackedEntity = entity;
   }
   createModel(
-    PUBLIC_PATH + "/public/models/Cesium_Air.glb",
+    PUBLIC_PATH + "public/models/Cesium_Air.glb",
     5000.0
   )
 })
