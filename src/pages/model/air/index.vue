@@ -4,7 +4,7 @@
 <script setup>
 import * as Cesium from 'cesium'
 import { ref, onMounted } from 'vue'
-import { defaultAccessToken } from '@/libs/const'
+import { defaultAccessToken, PUBLIC_PATH } from '@/libs/const'
 Cesium.Ion.defaultAccessToken = defaultAccessToken
 const container = ref(null);
 onMounted(() => {
@@ -42,7 +42,7 @@ onMounted(() => {
     viewer.trackedEntity = entity;
   }
   createModel(
-    "/public/models/Cesium_Air.glb",
+    PUBLIC_PATH + "/public/models/Cesium_Air.glb",
     5000.0
   )
 })

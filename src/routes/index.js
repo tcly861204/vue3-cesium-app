@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 const modules = import.meta.glob('/src/pages/**/index.vue')
+import { PUBLIC_PATH } from '@/libs/const'
 const childrens = []
 Object.keys(modules).forEach((key) => {
   const path = key.slice(10, -10)
@@ -10,7 +11,7 @@ Object.keys(modules).forEach((key) => {
   })
 })
 const router = createRouter({
-  history: createWebHistory('/vue3-cesium-app'),
+  history: createWebHistory(PUBLIC_PATH),
   routes: [{
     path: '/',
     name: 'layout',
