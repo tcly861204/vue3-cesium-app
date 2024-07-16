@@ -3,6 +3,9 @@ import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import CopyPlugin from 'vite-plugin-files-copy'
 import htmlMinifierTerser from 'vite-plugin-html-minifier-terser'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite';
+import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 export default defineConfig(({ mode }) => {
   return {
     base: "/",
@@ -32,6 +35,16 @@ export default defineConfig(({ mode }) => {
             to: 'dist/public',
           },
         ],
+      }),
+      AutoImport({
+        resolvers: [ArcoResolver()],
+      }),
+      Components({
+        resolvers: [
+          ArcoResolver({
+            sideEffect: true
+          })
+        ]
       })
     ],
     build: {
