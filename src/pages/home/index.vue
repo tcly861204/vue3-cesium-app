@@ -18,7 +18,7 @@ Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(
   // 北边维度
   61.2
 )
-const container = ref(null);
+const container = ref(null)
 onMounted(() => {
   const viewer = new Cesium.Viewer(container.value, {
     // 是否显示信息窗口
@@ -39,7 +39,7 @@ onMounted(() => {
     // 是否显示时间轴
     timeline: false,
     // 是否显示全屏按钮
-    fullscreenButton: false,
+    fullscreenButton: false
   })
   // 隐藏logo
   viewer.cesiumWidget.creditContainer.style.display = 'none'
