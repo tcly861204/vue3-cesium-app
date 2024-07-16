@@ -3,24 +3,45 @@ on:
   push:
     branches: [main]
 
+env:
+    cache-name: note
+    
 jobs:
-  publish-npm:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
-
+          node-version: '20'
+      
       - name: Version
         run: node -v
+  
+      - name: Cache nodemodules
+        uses: actions/cache@v3
+        env:
+            cache-name: cache-node-modules
+        with:
+            # 需要缓存的文件的路径
+            path: ./node_modules 
+            # 对缓存的文件指定的唯一标识
+            key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./package.json') }} 
+            # 用于没有再找目标key的缓存的backup选项
+            restore-keys: |
+                ${{ runner.os }}-build-${{ env.cache-name }}-
+                ${{ runner.os }}-build-
+                ${{ runner.os }}-
 
       - name: Install
-        run: npm i pnpm -g && pnpm install --no-frozen-lockfile # 安装依赖
+        run: npm install # 安装依赖
 
       - name: Build
-        run: pnpm build # 打包
+        run: npm run build
       
+      - name: Copy
+        run: cp README.md dist && cd dist && ls && cd ..
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3 # 使用部署到 GitHub pages 的 action
         with:
