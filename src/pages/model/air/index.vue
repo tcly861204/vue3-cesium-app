@@ -41,6 +41,21 @@ onMounted(() => {
     shadows: true,
     shouldAnimate: true
   })
-  createModel(viewer, PUBLIC_PATH + 'public/models/Cesium_Air.glb', 5000.0)
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      -123.0744619,
+      44.0503706,
+      1000.0
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(135),
+      pitch: Cesium.Math.toRadians(-15),
+      roll: 0.0
+    },
+    duration: 5.0,
+    complete: function () {
+      createModel(viewer, PUBLIC_PATH + 'public/models/Cesium_Air.glb', 5000.0)
+    }
+  })
 })
 </script>
