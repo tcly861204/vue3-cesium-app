@@ -9,7 +9,7 @@ import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
-  const isProd = env.mode === 'production'
+  const isProd = mode === 'production'
   return {
     base: env.VITE_APP_PUBLIC_PATH,
     publicDir: 'dist',

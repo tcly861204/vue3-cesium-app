@@ -11,6 +11,7 @@
         :default-open-keys="['home']"
         :default-selected-keys="['home']"
         :show-collapse-button="false"
+        :collapsed="false"
         breakpoint="xl"
         theme="dark"
         @menu-item-click="handleMenuItemClick"

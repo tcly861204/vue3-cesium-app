@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 const modules = import.meta.glob('/src/pages/**/index.vue')
-import { PUBLIC_PATH } from '@/libs/const'
 const childrens = []
 Object.keys(modules).forEach((key) => {
   const path = key.slice(10, -10)
@@ -11,7 +10,7 @@ Object.keys(modules).forEach((key) => {
   })
 })
 const router = createRouter({
-  history: createWebHistory(PUBLIC_PATH),
+  history: createWebHashHistory('/'),
   routes: [{
     path: '/',
     name: 'layout',
