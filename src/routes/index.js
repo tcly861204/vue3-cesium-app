@@ -10,7 +10,7 @@ Object.keys(modules).forEach((key) => {
   })
 })
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory('/vue3-cesium-app'),
   routes: [{
     path: '/',
     name: 'layout',

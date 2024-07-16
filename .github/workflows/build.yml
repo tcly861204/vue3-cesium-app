@@ -1,0 +1,30 @@
+name: cesium-build
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Version
+        run: node -v
+
+      - name: Install
+        run: npm i pnpm -g && pnpm install --no-frozen-lockfile # 安装依赖
+
+      - name: Build
+        run: pnpm build # 打包
+      
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3 # 使用部署到 GitHub pages 的 action
+        with:
+          # 发布到指定分支
+          BRANCH: gh-pages
+          # 构建成果所在目录,默认位置都是在根目录
+          FOLDER: ./dist
