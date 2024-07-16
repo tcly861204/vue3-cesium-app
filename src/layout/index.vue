@@ -18,13 +18,15 @@
       >
         <template v-for="item in MenuConfig">
           <a-menu-item v-if="!item.children" :key="item.key">
-            <template #icon v-if="item.icon && item.icon === 'icon-apps'">
-              <icon-apps></icon-apps>
+            <template #icon>
+              <component :is="item.icon" />
             </template>
             {{ item.title }}
           </a-menu-item>
           <a-sub-menu v-if="item.children && item.children.length" :key="item.key">
-            <template #icon v-if="item.icon && item.icon === 'icon-experiment'"><icon-experiment /></template>
+            <template #icon>
+              <component :is="item.icon" />
+            </template>
             <template #title>{{ item.title }}</template>
             <a-menu-item v-for="sub in item.children" :key="sub.key">{{ sub.title }}</a-menu-item>
           </a-sub-menu>
