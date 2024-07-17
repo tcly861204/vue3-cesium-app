@@ -29,10 +29,10 @@ onMounted(() => {
     // 不显示home按钮
     homeButton: false,
     // 控制查看器的显示模式
-    sceneModePicker: false,
+    sceneModePicker: true,
     sceneMode: Cesium.SceneMode.SCENE3D,
     // 是否显示图层选择
-    baseLayerPicker: false,
+    baseLayerPicker: true,
     // 是否显示帮助按钮
     navigationHelpButton: false,
     // 是否播放动画
