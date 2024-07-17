@@ -5,18 +5,20 @@ Object.keys(modules).forEach((key) => {
   const path = key.slice(10, -10)
   childrens.push({
     path,
-    name: path.replace(/\//g, '_'),
+    name: path.slice(1).replace(/\//g, '_'),
     component: modules[key]
   })
 })
 const router = createRouter({
   history: createWebHashHistory('/'),
-  routes: [{
-    path: '/',
-    name: 'layout',
-    redirect: '/home',
-    component: () => import('@/layout/index.vue'),
-    children: childrens
-  }]
+  routes: [
+    {
+      path: '/',
+      name: 'layout',
+      redirect: '/home',
+      component: () => import('@/layout/index.vue'),
+      children: childrens
+    }
+  ]
 })
 export default router

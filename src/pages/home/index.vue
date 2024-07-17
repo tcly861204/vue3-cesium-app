@@ -3,8 +3,10 @@
 </template>
 <script setup>
 import * as Cesium from 'cesium'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { defaultAccessToken } from '@/libs/const'
+const container = ref(null)
+const viewer = ref(null)
 // 设置Token
 Cesium.Ion.defaultAccessToken = defaultAccessToken
 // 设置默认视角(中国)， 通过经纬度设置
@@ -18,9 +20,8 @@ Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(
   // 北边维度
   61.2
 )
-const container = ref(null)
 onMounted(() => {
-  const viewer = new Cesium.Viewer(container.value, {
+  viewer.value = new Cesium.Viewer(container.value, {
     // 是否显示信息窗口
     infoBox: false,
     // 是否显示查询按钮
@@ -42,6 +43,9 @@ onMounted(() => {
     fullscreenButton: false
   })
   // 隐藏logo
-  viewer.cesiumWidget.creditContainer.style.display = 'none'
+  viewer.value.cesiumWidget.creditContainer.style.display = 'none'
+})
+onUnmounted(() => {
+  viewer.value && viewer.value.destroy()
 })
 </script>

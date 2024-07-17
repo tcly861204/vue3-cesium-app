@@ -3,13 +3,13 @@
 </template>
 <script setup>
 import * as Cesium from 'cesium'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { defaultAccessToken, PUBLIC_PATH } from '@/libs/const'
 Cesium.Ion.defaultAccessToken = defaultAccessToken
 const container = ref(null)
-
-const createModel = (viewer, url, height) => {
-  viewer.entities.removeAll()
+const viewer = ref(null)
+const createModel = (url, height) => {
+  viewer.value.entities.removeAll()
   const position = Cesium.Cartesian3.fromDegrees(
     -123.0744619,
     44.0503706,
@@ -23,7 +23,7 @@ const createModel = (viewer, url, height) => {
     position,
     hpr
   )
-  const entity = viewer.entities.add({
+  const entity = viewer.value.entities.add({
     name: url,
     position: position,
     orientation: orientation,
@@ -33,16 +33,28 @@ const createModel = (viewer, url, height) => {
       maximumScale: 20000
     }
   })
-  viewer.trackedEntity = entity
+  viewer.value.trackedEntity = entity
 }
-
 onMounted(() => {
-  const viewer = new Cesium.Viewer(container.value, {
+  viewer.value = new Cesium.Viewer(container.value, {
     infoBox: false,
     selectionIndicator: false,
     shadows: true,
     shouldAnimate: true
   })
-  createModel(viewer, PUBLIC_PATH + 'public/models/CesiumDrone.glb', 150.0)
+  viewer.value.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      -123.0744619,
+      44.0503706,
+      5000.0
+    ),
+    duration: 5.0,
+    complete: function () {
+      createModel(PUBLIC_PATH + 'public/models/CesiumDrone.glb', 150.0)
+    }
+  })
+})
+onUnmounted(() => {
+  viewer.value && viewer.value.destroy()
 })
 </script>

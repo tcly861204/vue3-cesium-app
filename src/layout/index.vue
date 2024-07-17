@@ -1,6 +1,6 @@
 <template>
   <section class="w-full h-full flex">
-    <sidebar class="arco-menu-dark">
+    <nav class="arco-menu-dark">
       <div class="w-[150px] p-[15px] text-white">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,8 +26,8 @@
       </div>
       <a-menu
         :style="{ width: '230px', height: 'calc(100vh - 58px)' }"
-        :default-open-keys="['home']"
-        :default-selected-keys="['home']"
+        :default-open-keys="defaultOpenKeys"
+        :default-selected-keys="defaultSelectedKeys"
         :show-collapse-button="false"
         :collapsed="false"
         breakpoint="xl"
@@ -55,18 +55,22 @@
           </a-sub-menu>
         </template>
       </a-menu>
-    </sidebar>
+    </nav>
     <section class="flex-1">
       <router-view />
     </section>
   </section>
 </template>
 <script setup>
-import { useRouter } from 'vue-router'
+import { onBeforeMount, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import MenuConfig from '@/libs/menu'
 import { IconApps, IconExperiment } from '@arco-design/web-vue/es/icon'
 import { findMenuItem } from '@/libs/utils'
 const router = useRouter()
+const route = useRoute()
+const defaultOpenKeys = ref(route.name.split('_')[0])
+const defaultSelectedKeys = ref([route.name])
 defineOptions({
   components: {
     IconApps,

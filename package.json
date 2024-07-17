@@ -12,6 +12,7 @@
   "dependencies": {
     "@arco-design/web-vue": "^2.55.3",
     "cesium": "^1.119.0",
+    "dat.gui": "^0.7.9",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0"
   },
