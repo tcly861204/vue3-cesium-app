@@ -1,3 +1,4 @@
+import * as Cesium from 'cesium'
 export const findMenuItem = (menu, key) => {
   let find = null
   menu.map((item) => {
@@ -10,4 +11,16 @@ export const findMenuItem = (menu, key) => {
     return item
   })
   return find
+}
+
+export const addEvent = (viewer, callback) => {
+  viewer.screenSpaceEventHandler.setInputAction(
+    callback,
+    Cesium.ScreenSpaceEventType.LEFT_CLICK
+  )
+}
+export const removeEvent = (viewer) => {
+  viewer.screenSpaceEventHandler.removeInputAction(
+    Cesium.ScreenSpaceEventType.LEFT_CLICK
+  )
 }

@@ -5,6 +5,7 @@
 import * as Cesium from 'cesium'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { defaultAccessToken } from '@/libs/const'
+import { addEvent, removeEvent } from '@/libs/utils'
 const container = ref(null)
 const viewer = ref(null)
 // 设置Token
@@ -44,8 +45,36 @@ onMounted(() => {
   })
   // 隐藏logo
   viewer.value.cesiumWidget.creditContainer.style.display = 'none'
+
+  // 监听点击事件
+  addEvent(viewer.value, (click) => {
+    // 获取点击位置的世界坐标
+    const cartesian = viewer.value.scene.pickPosition(click.position)
+    if (Cesium.defined(cartesian)) {
+      // 转换为经纬度
+      const cartographic =
+        viewer.value.scene.globe.ellipsoid.cartesianToCartographic(cartesian)
+      const longitudeString = Cesium.Math.toDegrees(cartographic.longitude)
+      const latitudeString = Cesium.Math.toDegrees(cartographic.latitude)
+      const height = viewer.value.scene.globe.getHeight(cartographic)
+      // 输出点击的经纬度和高度
+      console.log(
+        `Longitude: ${longitudeString}, Latitude: ${latitudeString}, Height: ${height}`
+      )
+      console.log(Math.round(viewer.value.camera.positionCartographic.height))
+      viewer.value.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(
+          longitudeString,
+          latitudeString,
+          8000.0
+        ),
+        duration: 2.0
+      })
+    }
+  })
 })
 onUnmounted(() => {
+  removeEvent(viewer.value)
   viewer.value && viewer.value.destroy()
 })
 </script>
