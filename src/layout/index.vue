@@ -62,14 +62,14 @@
   </section>
 </template>
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import MenuConfig from '@/libs/menu'
 import { IconApps, IconExperiment } from '@arco-design/web-vue/es/icon'
 import { findMenuItem } from '@/libs/utils'
 const router = useRouter()
 const route = useRoute()
-const defaultOpenKeys = ref(route.name.split('_')[0])
+const defaultOpenKeys = ref(route.name.split('_').slice(0, 1))
 const defaultSelectedKeys = ref([route.name])
 defineOptions({
   components: {
